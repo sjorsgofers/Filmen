@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="High-end bedrijfsvideo’s en performance marketingcampagnes. Van concept tot conversie." />
+  <title>Studio Nova — Video & Marketing Campaigns</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP (animaties) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root{
+      --bg: #07080B;
+      --bg2:#0B0D13;
+      --card:#0D1020;
+      --text:#EAF0FF;
+      --muted:#A9B3CE;
+      --line: rgba(234,240,255,0.10);
+
+      --accent:#7C5CFF;
+      --accent2:#22D3EE;
+      --accent3:#F97316;
+
+      --radius: 24px;
+      --shadow: 0 20px 70px rgba(0,0,0,0.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,0.35);
+
+      --max: 1200px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,0.25), transparent 55%),
+                  radial-gradient(900px 600px at 85% 20%, rgba(34,211,238,0.18), transparent 55%),
+                  radial-gradient(900px 650px at 35% 95%, rgba(249,115,22,0.12), transparent 60%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
+    .grid{ display:grid; gap:18px; }
+
+    /* Subtle grain */
+    .grain{
+      pointer-events:none;
+      position:fixed; inset:0;
+      opacity:0.09;
+      mix-blend-mode: overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size:220px 220px;
+      z-index:999;
+    }
+
+    /* Top nav */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(7,8,11,0.75), rgba(7,8,11,0.35));
+      border-bottom:1px solid rgba(234,240,255,0.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      height:74px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      letter-spacing:-0.02em;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background:
+        radial-gradient(10px 10px at 30% 35%, rgba(255,255,255,0.85), transparent 60%),
+        linear-gradient(135deg, rgba(124,92,255,1), rgba(34,211,238,1));
+      box-shadow: 0 10px 30px rgba(124,92,255,0.25);
+    }
+    .brand span{ font-weight:700; font-size:16px; }
+    .brand small{ display:block; color:var(--muted); font-weight:500; font-size:12px; margin-top:2px; letter-spacing:0; }
+
+    .nav-links{ display:flex; gap:18px; align-items:center; }
+    .nav-links a{
+      color:rgba(234,240,255,0.82);
+      font-weight:600;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition: 180ms ease;
+    }
+    .nav-links a:hover{
+      border-color: rgba(234,240,255,0.12);
+      background: rgba(234,240,255,0.04);
+    }
+
+    .btn{
+      position:relative;
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      border:1px solid rgba(234,240,255,0.14);
+      background: rgba(234,240,255,0.04);
+      color:var(--text);
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease;
+      will-change: transform;
+    }
+    .btn:hover{
+      background: rgba(234,240,255,0.06);
+      border-color: rgba(234,240,255,0.20);
+      transform: translateY(-1px);
+    }
+    .btn-primary{
+      border-color: rgba(124,92,255,0.45);
+      background: radial-gradient(120px 60px at 20% 20%, rgba(34,211,238,0.25), transparent 55%),
+                  linear-gradient(135deg, rgba(124,92,255,0.95), rgba(124,92,255,0.55));
+      box-shadow: 0 14px 40px rgba(124,92,255,0.26);
+    }
+    .btn-primary:hover{ transform: translateY(-2px); }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(234,240,255,0.05);
+      border:1px solid rgba(234,240,255,0.10);
+      color:rgba(234,240,255,0.86);
+      font-size:12px;
+      font-weight:650;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      box-shadow: 0 0 0 4px rgba(124,92,255,0.12);
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:72px 0 34px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:26px;
+      align-items:stretch;
+    }
+    .hero-left{
+      padding:30px 0 10px;
+    }
+    h1{
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size: clamp(40px, 4.8vw, 68px);
+      line-height:1.02;
+      letter-spacing:-0.04em;
+      margin:16px 0 14px;
+    }
+    .lead{
+      color:rgba(234,240,255,0.78);
+      font-size:16px;
+      line-height:1.65;
+      max-width: 60ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+    .meta{
+      display:flex;
+      gap:14px;
+      margin-top:22px;
+      flex-wrap:wrap;
+      color: rgba(234,240,255,0.68);
+      font-size:12px;
+      font-weight:600;
+    }
+    .meta-item{
+      display:flex; gap:10px; align-items:center;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(234,240,255,0.10);
+      background: rgba(234,240,255,0.03);
+    }
+    .meta-item b{ color: rgba(234,240,255,0.9); font-weight:800; }
+
+    /* Hero visual card */
+    .hero-right{
+      position:relative;
+    }
+    .visual{
+      position:relative;
+      height: 100%;
+      min-height: 430px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(234,240,255,0.10);
+      background:
+        radial-gradient(700px 420px at 20% 20%, rgba(124,92,255,0.32), transparent 55%),
+        radial-gradient(620px 420px at 90% 30%, rgba(34,211,238,0.22), transparent 55%),
+        linear-gradient(180deg, rgba(13,16,32,0.95), rgba(10,12,20,0.85));
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      isolation:isolate;
+    }
+    .visual:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 140deg,
+        rgba(124,92,255,0.35),
+        rgba(34,211,238,0.22),
+        rgba(249,115,22,0.12),
+        rgba(124,92,255,0.35)
+      );
+      filter: blur(28px);
+      opacity:0.8;
+      z-index:0;
+      transform: translate3d(0,0,0);
+      animation: hue 10s linear infinite;
+    }
+    @keyframes hue{
+      0%{ filter: blur(28px) hue-rotate(0deg); }
+      100%{ filter: blur(28px) hue-rotate(360deg); }
+    }
+    .visual-inner{
+      position:absolute; inset:0;
+      padding:18px;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .mini-top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(234,240,255,0.12);
+      background: rgba(7,8,11,0.25);
+      color: rgba(234,240,255,0.85);
+      font-weight:700;
+      font-size:12px;
+    }
+    .chip svg{ opacity:0.85; }
+    .signal{
+      width:10px; height:10px; border-radius:999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34,197,94,0.12);
+    }
+
+    .screen{
+      position:relative;
+      border-radius: 18px;
+      border: 1px solid rgba(234,240,255,0.10);
+      background: rgba(7,8,11,0.55);
+      overflow:hidden;
+      height: 280px;
+    }
+    .screen video, .screen .fake-video{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:0.95;
+      transform: scale(1.02);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    /* Als je geen video wilt: gebruik deze “fake” gradient animatie */
+    .fake-video{
+      background:
+        radial-gradient(520px 320px at 20% 20%, rgba(124,92,255,0.55), transparent 55%),
+        radial-gradient(480px 320px at 90% 30%, rgba(34,211,238,0.42), transparent 55%),
+        radial-gradient(520px 360px at 45% 90%, rgba(249,115,22,0.25), transparent 60%),
+        linear-gradient(135deg, rgba(10,12,20,1), rgba(13,16,32,1));
+      animation: floatbg 10s ease-in-out infinite;
+    }
+    @keyframes floatbg{
+      0%,100%{ transform: scale(1.02) translateY(0px); filter:hue-rotate(0deg); }
+      50%{ transform: scale(1.06) translateY(-10px); filter:hue-rotate(25deg); }
+    }
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .kpi{
+      padding:12px 12px;
+      border-radius:18px;
+      border:1px solid rgba(234,240,255,0.10);
+      background: rgba(7,8,11,0.35);
+    }
+    .kpi b{
+      display:block;
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size:18px;
+      letter-spacing:-0.02em;
+      margin-bottom:4px;
+    }
+    .kpi span{
+      color: rgba(234,240,255,0.72);
+      font-size:12px;
+      font-weight:650;
+    }
+
+    /* Marquee */
+    .marquee{
+      margin: 28px 0 0;
+      border-top:1px solid rgba(234,240,255,0.08);
+      border-bottom:1px solid rgba(234,240,255,0.08);
+      background: rgba(234,240,255,0.02);
+      overflow:hidden;
+    }
+    .marquee-track{
+      display:flex;
+      gap:34px;
+      padding:14px 0;
+      white-space:nowrap;
+      will-change: transform;
+      animation: marquee 22s linear infinite;
+    }
+    @keyframes marquee{
+      0%{ transform: translateX(0); }
+      100%{ transform: translateX(-50%); }
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      color: rgba(234,240,255,0.72);
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+    .badge i{
+      width:6px; height:6px; border-radius:999px;
+      background: rgba(234,240,255,0.40);
+      display:inline-block;
+    }
+
+    /* Sections */
+    section{ padding:56px 0; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    h2{
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size: clamp(24px, 3vw, 36px);
+      margin:0;
+      letter-spacing:-0.03em;
+      line-height:1.15;
+    }
+    .sub{
+      color: rgba(234,240,255,0.72);
+      font-weight:600;
+      font-size:14px;
+      line-height:1.6;
+      max-width:60ch;
+      margin:0;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+    .card{
+      border-radius: var(--radius);
+      border:1px solid rgba(234,240,255,0.10);
+      background: linear-gradient(180deg, rgba(13,16,32,0.85), rgba(7,8,11,0.55));
+      box-shadow: var(--shadow2);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(420px 220px at 20% 10%, rgba(124,92,255,0.20), transparent 60%),
+                  radial-gradient(360px 240px at 90% 20%, rgba(34,211,238,0.14), transparent 60%);
+      opacity:0.9;
+      z-index:0;
+    }
+    .card > *{ position:relative; z-index:1; }
+
+    .icon{
+      width:44px; height:44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(234,240,255,0.12);
+      background: rgba(7,8,11,0.35);
+      margin-bottom:12px;
+    }
+    .card h3{
+      margin:0 0 8px;
+      font-size:16px;
+      letter-spacing:-0.02em;
+    }
+    .card p{
+      margin:0;
+      color: rgba(234,240,255,0.72);
+      line-height:1.65;
+      font-size:14px;
+    }
+    .list{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:8px;
+    }
+    .list li{
+      display:flex; gap:10px; align-items:flex-start;
+      color: rgba(234,240,255,0.74);
+      font-size:13px;
+      line-height:1.5;
+      font-weight:600;
+    }
+    .check{
+      width:18px; height:18px; border-radius:6px;
+      background: rgba(34,211,238,0.12);
+      border:1px solid rgba(34,211,238,0.22);
+      display:grid; place-items:center;
+      flex:0 0 auto;
+      margin-top:1px;
+    }
+
+    /* Work grid */
+    .work{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .work-main{
+      min-height: 420px;
+      padding:0;
+      overflow:hidden;
+    }
+    .work-main .frame{
+      height:100%;
+      border-radius: var(--radius);
+      position:relative;
+      overflow:hidden;
+    }
+    .frame .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(7,8,11,0.05), rgba(7,8,11,0.88));
+    }
+    .frame .content{
+      position:absolute; inset:auto 18px 16px 18px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .tagrow{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(234,240,255,0.12);
+      background: rgba(7,8,11,0.30);
+      color: rgba(234,240,255,0.80);
+    }
+    .work-title{
+      margin:0 0 6px;
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size:22px;
+      letter-spacing:-0.03em;
+    }
+    .work-desc{
+      margin:0;
+      color: rgba(234,240,255,0.72);
+      font-weight:650;
+      font-size:13px;
+      line-height:1.55;
+      max-width: 52ch;
+    }
+    .thumbs{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+    }
+    .thumb{
+      padding:0;
+      overflow:hidden;
+      min-height: 202px;
+    }
+    .thumb .thumb-inner{
+      position:relative;
+      height:100%;
+      border-radius: var(--radius);
+      overflow:hidden;
+      background:
+        radial-gradient(500px 220px at 20% 20%, rgba(124,92,255,0.34), transparent 60%),
+        radial-gradient(520px 240px at 90% 30%, rgba(34,211,238,0.22), transparent 60%),
+        linear-gradient(135deg, rgba(13,16,32,0.9), rgba(7,8,11,0.55));
+    }
+    .thumb .thumb-inner:after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(7,8,11,0.0), rgba(7,8,11,0.85));
+    }
+    .thumb .thumb-meta{
+      position:absolute; left:16px; bottom:14px; right:16px;
+      display:flex; justify-content:space-between; align-items:flex-end; gap:12px;
+      z-index:2;
+    }
+    .thumb h4{ margin:0 0 4px; font-size:14px; letter-spacing:-0.02em; }
+    .thumb p{ margin:0; color:rgba(234,240,255,0.72); font-size:12px; font-weight:650; line-height:1.5; }
+
+    /* Process */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:14px;
+    }
+    .step{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid rgba(234,240,255,0.10);
+      background: rgba(7,8,11,0.20);
+      position:relative;
+      overflow:hidden;
+    }
+    .step:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(360px 220px at 10% 20%, rgba(34,211,238,0.14), transparent 60%),
+                  radial-gradient(360px 220px at 90% 20%, rgba(124,92,255,0.14), transparent 60%);
+      opacity:0.9;
+    }
+    .step > *{ position:relative; z-index:1; }
+    .step b{
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size:16px;
+      letter-spacing:-0.02em;
+    }
+    .step p{
+      margin:8px 0 0;
+      color: rgba(234,240,255,0.72);
+      font-size:13px;
+      font-weight:650;
+      line-height:1.6;
+    }
+    .num{
+      width:34px; height:34px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      border:1px solid rgba(234,240,255,0.14);
+      background: rgba(7,8,11,0.35);
+      margin-bottom:10px;
+      font-weight:900;
+      color: rgba(234,240,255,0.86);
+    }
+
+    /* Testimonials */
+    .quotes{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+    .quote{
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid rgba(234,240,255,0.10);
+      background: rgba(7,8,11,0.22);
+    }
+    .quote p{
+      margin:0;
+      color: rgba(234,240,255,0.82);
+      font-weight:650;
+      line-height:1.7;
+      font-size:14px;
+    }
+    .who{
+      display:flex; align-items:center; gap:12px;
+      margin-top:14px;
+      color: rgba(234,240,255,0.70);
+      font-size:12px;
+      font-weight:700;
+    }
+    .avatar{
+      width:34px; height:34px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(124,92,255,0.8), rgba(34,211,238,0.8));
+      border:1px solid rgba(234,240,255,0.14);
+    }
+
+    /* CTA */
+    .cta{
+      padding:22px;
+      border-radius: calc(var(--radius) + 6px);
+      border:1px solid rgba(234,240,255,0.12);
+      background:
+        radial-gradient(820px 420px at 20% 20%, rgba(124,92,255,0.30), transparent 55%),
+        radial-gradient(820px 420px at 90% 30%, rgba(34,211,238,0.22), transparent 55%),
+        linear-gradient(180deg, rgba(13,16,32,0.75), rgba(7,8,11,0.35));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .cta:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 180deg,
+        rgba(124,92,255,0.0),
+        rgba(34,211,238,0.22),
+        rgba(124,92,255,0.18),
+        rgba(249,115,22,0.14),
+        rgba(124,92,255,0.0)
+      );
+      filter: blur(34px);
+      opacity:0.8;
+    }
+    .cta > *{ position:relative; z-index:1; }
+
+    .footer{
+      padding:28px 0 40px;
+      color: rgba(234,240,255,0.62);
+      border-top:1px solid rgba(234,240,255,0.08);
+      font-size:12px;
+      font-weight:650;
+    }
+    .footrow{
+      display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      align-items:center;
+    }
+
+    /* Reveal baseline (JS maakt zichtbaar) */
+    .reveal{
+      opacity:0;
+      transform: translateY(16px);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .visual{ min-height: 420px; }
+      .cards{ grid-template-columns: 1fr; }
+      .work{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr 1fr; }
+      .quotes{ grid-template-columns: 1fr; }
+      .nav-links{ display:none; }
+      .kpis{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+    @media (max-width: 560px){
+      .steps{ grid-template-columns: 1fr; }
+      .kpis{ grid-template-columns: 1fr; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+      .reveal{ opacity:1; transform:none; }
+      .marquee-track{ animation:none; transform:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Studio Nova home">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <span>Studio Nova</span>
+          <small>Video • Campaigns • Growth</small>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Hoofdnavigatie">
+        <a href="#services">Services</a>
+        <a href="#work">Werk</a>
+        <a href="#process">Proces</a>
+        <a href="#testimonials">Reviews</a>
+      </nav>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <a class="btn magnetic" href="#work">Bekijk cases</a>
+        <a class="btn btn-primary magnetic" href="#contact">Plan een call</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <div class="pill reveal">
+          <span class="dot" aria-hidden="true"></span>
+          Full-service video + performance marketing
+        </div>
+
+        <h1 class="reveal">
+          Cinematic bedrijfsvideo’s en campagnes die <span style="background:linear-gradient(135deg,var(--accent2),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent;">conversie</span> triggeren.
+        </h1>
+
+        <p class="lead reveal">
+          Van concept en scripting tot productie, editing en distributie. Wij bouwen content die er niet alleen premium uitziet,
+          maar ook meetbaar presteert: leads, sales en merkvoorkeur.
+        </p>
+
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary magnetic" href="#contact">
+            Plan een strategiecall
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn magnetic" href="#services">
+            Wat we leveren
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+
+        <div class="meta reveal">
+          <div class="meta-item"><b>48–72u</b> first cut</div>
+          <div class="meta-item"><b>4K</b> delivery</div>
+          <div class="meta-item"><b>Paid + Organic</b> ready</div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="visual reveal" id="heroVisual">
+          <div class="visual-inner">
+            <div class="mini-top">
+              <div class="chip">
+                <span class="signal" aria-hidden="true"></span>
+                Live campaign dashboard
+              </div>
+              <div class="chip" title="Proof-driven">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2l2.6 6.3L21 9l-5 4.3 1.6 6.5L12 16.8 6.4 19.8 8 13.3 3 9l6.4-.7L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                </svg>
+                Proof-driven
+              </div>
+            </div>
+
+            <div class="screen" aria-label="Showreel">
+              <!-- Optie A: echte video -->
+              <!--
+              <video autoplay muted loop playsinline preload="metadata" poster="YOUR_POSTER.jpg">
+                <source src="YOUR_SHOWREEL.mp4" type="video/mp4" />
+              </video>
+              -->
+              <!-- Optie B: fake “video” (default) -->
+              <div class="fake-video" aria-hidden="true"></div>
+              <div style="position:absolute; inset:0; background: radial-gradient(420px 260px at 20% 20%, rgba(255,255,255,0.08), transparent 55%);"></div>
+            </div>
+
+            <div class="kpis">
+              <div class="kpi">
+                <b>+37%</b>
+                <span>CTR uplift (avg.)</span>
+              </div>
+              <div class="kpi">
+                <b>2.1x</b>
+                <span>ROAS via creatives</span>
+              </div>
+              <div class="kpi">
+                <b>12</b>
+                <span>deliverables / maand</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-label="Klanten en capabilities">
+      <div class="marquee-track" id="marqueeTrack">
+        <span class="badge"><i></i>BRAND FILMS</span>
+        <span class="badge"><i></i>PAID SOCIAL</span>
+        <span class="badge"><i></i>UGC SYSTEMS</span>
+        <span class="badge"><i></i>LANDING PAGES</span>
+        <span class="badge"><i></i>PRODUCT VIDEOS</span>
+        <span class="badge"><i></i>CREATIVE TESTING</span>
+
+        <!-- duplicate voor loop -->
+        <span class="badge"><i></i>BRAND FILMS</span>
+        <span class="badge"><i></i>PAID SOCIAL</span>
+        <span class="badge"><i></i>UGC SYSTEMS</span>
+        <span class="badge"><i></i>LANDING PAGES</span>
+        <span class="badge"><i></i>PRODUCT VIDEOS</span>
+        <span class="badge"><i></i>CREATIVE TESTING</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="reveal">Services die er premium uitzien én hard presteren.</h2>
+          <p class="sub reveal">Alles is modulair: één hero film of een volledige always-on content machine inclusief ads en reporting.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7z" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M10 9l6 3-6 3V9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Brand & Company Films</h3>
+          <p>Cinematic storytelling voor vertrouwen, merkvoorkeur en recruitment.</p>
+          <ul class="list">
+            <li><span class="check" aria-hidden="true">✓</span>Concept, script, shotlist</li>
+            <li><span class="check" aria-hidden="true">✓</span>Production + editing + grading</li>
+            <li><span class="check" aria-hidden="true">✓</span>Versies voor site, events, socials</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M6 19V5m0 14h14M8 16l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Performance Creative</h3>
+          <p>Ads en creatives ontworpen voor CTR, CPA en ROAS. Testen, winnen, schalen.</p>
+          <ul class="list">
+            <li><span class="check" aria-hidden="true">✓</span>Hook frameworks + variants</li>
+            <li><span class="check" aria-hidden="true">✓</span>Native edits voor TikTok/Meta</li>
+            <li><span class="check" aria-hidden="true">✓</span>Reporting & creative insights</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3 6 6 .8-4.4 4 1.2 6.2L12 16.9 6.2 19 7.4 12.8 3 8.8 9 8l3-6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Campaign Systems</h3>
+          <p>Van landingspagina tot content calendar: alles in één consistente campagneflow.</p>
+          <ul class="list">
+            <li><span class="check" aria-hidden="true">✓</span>Messaging + offer structuren</li>
+            <li><span class="check" aria-hidden="true">✓</span>Funnel content (TOF/MOF/BOF)</li>
+            <li><span class="check" aria-hidden="true">✓</span>Launch kit + social templates</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="reveal">Werk dat aanvoelt als een film, maar werkt als een machine.</h2>
+          <p class="sub reveal">Hier kun je later echte thumbnails/video’s koppelen. Alles is al “motion-ready”.</p>
+        </div>
+        <a class="btn magnetic reveal" href="#contact">Vraag portfolio op →</a>
+      </div>
+
+      <div class="work">
+        <article class="card work-main reveal">
+          <div class="frame" id="mainCase">
+            <div class="fake-video" aria-hidden="true"></div>
+            <div class="overlay" aria-hidden="true"></div>
+            <div class="content">
+              <div>
+                <h3 class="work-title">Launch film + paid creative suite</h3>
+                <p class="work-desc">Cinematic hero video, 12 ad-varianten, en always-on content voor 30 dagen.</p>
+                <div class="tagrow" style="margin-top:12px;">
+                  <span class="tag">Meta</span>
+                  <span class="tag">TikTok</span>
+                  <span class="tag">YouTube</span>
+                  <span class="tag">4K</span>
+                </div>
+              </div>
+              <a class="btn btn-primary magnetic" href="#contact">Case bespreken</a>
+            </div>
+          </div>
+        </article>
+
+        <div class="thumbs">
+          <article class="card thumb reveal">
+            <div class="thumb-inner" id="thumb1">
+              <div class="thumb-meta">
+                <div>
+                  <h4>Recruitment film</h4>
+                  <p>Employer branding + social cutdowns</p>
+                </div>
+                <span class="tag">HR</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card thumb reveal">
+            <div class="thumb-inner" id="thumb2">
+              <div class="thumb-meta">
+                <div>
+                  <h4>Product content</h4>
+                  <p>UGC + studio shots + hooks</p>
+                </div>
+                <span class="tag">DTC</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="reveal">Een strak proces. Geen ruis. Wel snelheid.</h2>
+          <p class="sub reveal">Je weet exact wat je wanneer krijgt — inclusief feedbackrondes en deliverables per kanaal.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">1</div>
+          <b>Strategie</b>
+          <p>Doel, doelgroep, angle, hooks en offer. Alles wordt meetbaar gemaakt.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">2</div>
+          <b>Pre-productie</b>
+          <p>Script, shotlist, planning, styling. Efficiënt draaien, maximale output.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">3</div>
+          <b>Productie</b>
+          <p>High-end capture (4K), audio, licht. Cinematic, maar direct inzetbaar.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">4</div>
+          <b>Post + Deliver</b>
+          <p>Editing, grading, sound, exports per platform + variants voor testing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="reveal">Teams die willen opschalen, blijven terugkomen.</h2>
+          <p class="sub reveal">Placeholder reviews — vervang deze met echte quotes en namen.</p>
+        </div>
+      </div>
+
+      <div class="quotes">
+        <div class="quote reveal">
+          <p>“De output voelde direct premium. De ads presteerden vanaf dag 1 beter en we konden eindelijk gestructureerd testen.”</p>
+          <div class="who"><div class="avatar" aria-hidden="true"></div> Growth Lead • E-commerce</div>
+        </div>
+        <div class="quote reveal">
+          <p>“Strak proces, snelle feedbackrondes en een first cut waar je meteen mee durft te publiceren.”</p>
+          <div class="who"><div class="avatar" aria-hidden="true"></div> Marketing Manager • B2B</div>
+        </div>
+        <div class="quote reveal">
+          <p>“Ze denken mee in messaging. Het is niet ‘mooie video’, maar content die echt iets dóét.”</p>
+          <div class="who"><div class="avatar" aria-hidden="true"></div> Founder • SaaS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section id="contact">
+    <div class="container">
+      <div class="cta reveal">
+        <div class="section-head" style="margin-bottom:14px;">
+          <div>
+            <h2>Ready voor content die sales ondersteunt?</h2>
+            <p class="sub">Plan een korte call. Je krijgt een concrete aanpak + deliverable voorstel (geen bla-bla).</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="btn btn-primary magnetic" href="mailto:hello@studionova.nl?subject=Strategiecall%20aanvraag&body=Hoi%2C%0A%0AWij%20willen%20graag%20een%20strategiecall%20inplannen.%0A%0ABedrijf%3A%0ADoel%3A%0APlatform%3A%0ATijdslijn%3A%0ABudget%3A%0A%0AGroet%2C">
+            Mail voor een call →
+          </a>
+          <a class="btn magnetic" href="#services">Eerst services checken</a>
+        </div>
+
+        <div class="meta" style="margin-top:14px;">
+          <div class="meta-item"><b>Kickoff</b> binnen 5 werkdagen</div>
+          <div class="meta-item"><b>Assets</b> 9:16 / 1:1 / 16:9</div>
+          <div class="meta-item"><b>Handover</b> project files optioneel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footrow">
+      <div>© <span id="year"></span> Studio Nova. All rights reserved.</div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#top">Top</a>
+        <a href="#services">Services</a>
+        <a href="#work">Werk</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Smooth anchor scroll (zonder zware libs)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener("click", (e)=>{
+        const id = a.getAttribute("href");
+        if(!id || id === "#") return;
+        const el = document.querySelector(id);
+        if(!el) return;
+        e.preventDefault();
+        el.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+    });
+
+    // Magnetic buttons (subtiel premium effect)
+    const magnets = document.querySelectorAll(".magnetic");
+    const strength = 14;
+    magnets.forEach(btn=>{
+      btn.addEventListener("mousemove", (e)=>{
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width/2;
+        const y = e.clientY - r.top - r.height/2;
+        btn.style.transform = `translate(${x/strength}px, ${y/strength}px)`;
+      });
+      btn.addEventListener("mouseleave", ()=>{
+        btn.style.transform = "translate(0,0)";
+      });
+    });
+
+    // Parallax tilt op hero card (desktop)
+    const heroVisual = document.getElementById("heroVisual");
+    if(heroVisual){
+      heroVisual.addEventListener("mousemove", (e)=>{
+        const r = heroVisual.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = (py - 0.5) * -6;
+        const ry = (px - 0.5) * 8;
+        heroVisual.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+      });
+      heroVisual.addEventListener("mouseleave", ()=>{
+        heroVisual.style.transform = "none";
+      });
+    }
+
+    // GSAP reveal + scroll scenes
+    window.addEventListener("load", ()=>{
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const hasGSAP = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
+
+      // Als GSAP niet laadt, toon gewoon alles
+      if(!hasGSAP || prefersReduced){
+        document.querySelectorAll(".reveal").forEach(el=>{
+          el.style.opacity = 1;
+          el.style.transform = "none";
+        });
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Stagger reveal
+      gsap.utils.toArray(".reveal").forEach((el, i)=>{
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: Math.min(i * 0.03, 0.25),
+          scrollTrigger: {
+            trigger: el,
+            start: "top 86%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      });
+
+      // Hero subtle float
+      if(heroVisual){
+        gsap.to(heroVisual, {
+          y: -6,
+          duration: 2.6,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1
+        });
+      }
+
+      // Work parallax on main case
+      const mainCase = document.getElementById("mainCase");
+      if(mainCase){
+        gsap.to(mainCase, {
+          scale: 1.02,
+          ease: "none",
+          scrollTrigger: {
+            trigger: mainCase,
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 0.6
+          }
+        });
+      }
+
+      // Thumbs micro motion
+      ["thumb1","thumb2"].forEach((id, idx)=>{
+        const el = document.getElementById(id);
+        if(!el) return;
+        gsap.to(el, {
+          y: idx === 0 ? -10 : 10,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            end: "bottom 10%",
+            scrub: 0.7
+          }
+        });
+      });
+
+      // Marquee speed-up on scroll (subtiel)
+      const track = document.getElementById("marqueeTrack");
+      if(track){
+        ScrollTrigger.create({
+          start: 0,
+          end: "max",
+          onUpdate: (self)=>{
+            const v = Math.abs(self.getVelocity());
+            const speed = Math.min(1.8, 1 + v/4500);
+            track.style.animationDuration = (22 / speed).toFixed(2) + "s";
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
